@@ -5,6 +5,7 @@ Currently only recognizes 3 bands that are cannibal corpse, burzum and bathory
 
 """
 import cv2
+import imutils
 from ultralytics import YOLO
 
 
@@ -27,10 +28,7 @@ class MetalBandLogoDetector:
         :return: Annotated frame.
         """
         if self.resize_width > 0:
-            height, width, _ = frame.shape
-            resizeHeight = int((self.resize_width/ width) * height)
-            frame = cv2.resize(frame, (self.resize_width, resizeHeight),
-                               interpolation=cv2.INTER_AREA)
+            frame = imutils.resize(frame, width=self.resize_width)
 
         results = self.model(frame)  # run model
         annotated_frame = results[0].plot()  # plot results
